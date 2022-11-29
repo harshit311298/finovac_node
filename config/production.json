@@ -1,0 +1,23 @@
+{
+    "env": "test",
+    "config_id": "production",
+    "app_name": "finvoc",
+    "app_desc": "finvoc",
+    "node_port": 1836,
+    "json_indentation": 4,
+    "host": "localhost",
+    "basicAuthUser": "",
+    "basicAuthKey": "",
+    "user": "node-trainee@mobiloitte.com",
+    "pass": "Mobiloitte1",
+    "database": "mongodb+srv://complyany:Q1slnCfLedGEAQDB@cluster0.mmdq3.mongodb.net/compliancelive?retryWrites=true&w=majority",
+    "url": "",
+    "swaggerURL": "localhost:1836",
+    "cloudinary": {
+        "cloud_name": "mobiloitte-testing",
+        "api_key": "443422451227996",
+        "api_secret": "SVuCqSWA6WwFsNvDx-6qfd7lSfU"
+    },
+    "textLocalKey" : "MzM3MTVhN2E1NDc5Mzc3YTM2NGQ0ODMyMzg3ODMyNDY=",
+    "textLocalHash": "c29eb3e2493825e3e54ab32605f5f0f332ef8b918a5423b2ee76214bf6d56ac3"
+}
