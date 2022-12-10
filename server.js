@@ -8,8 +8,8 @@ require("./dbConnections/mongodb");
 const index = require('./route')
 app.use(cors());
 const enviroment=require('./utility/enviromentVariables')
-let variableused=enviroment.local//beta
-// let variableused=enviroment.staging//staging
+// let variableused=enviroment.local//beta
+let variableused=enviroment.staging//staging
 // let variableused=enviroment.production//production
 app.use(express.urlencoded({ extended: true, limit: "1000mb" }));
 app.use(express.json({ limit: "1000mb" }));
