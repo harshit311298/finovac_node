@@ -59,10 +59,9 @@ module.exports = {
                 }
             })
         } else {
-            return res.status(501).send({
-                errorCode: 501,
-                responseMessage: "Internal Server error",
-                error: error,
+            return res.status(400).send({
+                errorCode: 400,
+                responseMessage: "Please provide token.",
             });
         }
     }
