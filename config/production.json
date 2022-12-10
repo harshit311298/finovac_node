@@ -12,7 +12,7 @@
     "pass": "Mobiloitte1",
     "database": "mongodb+srv://complyany:Q1slnCfLedGEAQDB@cluster0.mmdq3.mongodb.net/compliancelive?retryWrites=true&w=majority",
     "url": "",
-    "swaggerURL": "localhost:1836",
+    "swaggerURL": "localhost:1964",
     "cloudinary": {
         "cloud_name": "mobiloitte-testing",
         "api_key": "443422451227996",

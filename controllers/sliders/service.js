@@ -10,7 +10,7 @@ module.exports={
     },
  
     async findAllData(query){
-        return await model.find(query)
+        return await model.find(query).sort({slideNumber:1})
     },
 
     async findOneData(query){
@@ -27,6 +27,10 @@ module.exports={
 
     async editManyData(query,data){
         return await model.updateMany(query,data,{multi:true})
+    },
+
+    async paginateData(query,options){
+        return await model.paginate(query,options)
     }
 }
 
