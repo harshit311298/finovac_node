@@ -35,7 +35,7 @@ module.exports = {
  */
     login: async (req, res) => {
         try {
-            let admin = await service.findUser({ $or: [{ email: req.body.email }, { mobileNumber: req.body.email }], userType: userTypeEnum.data.ADMIN, status: statusEnum.data.ACTIVE })
+            let admin = await service.findUser({ $or: [{ email: req.body.email }, { mobileNumber: req.body.email }], userType: userTypeEnum.data.ADMIN, status: statusEnum.data.ACTIVE }).select('-emailOtp -mobileOtp')
             if (!admin) {
                 return response(res, statusCode.data.NOT_FOUND, [], messages.ErrorMessage.USER_NOT_FOUND)
             }
@@ -59,4 +59,17 @@ module.exports = {
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
         }
     },
+
+    forgotPassword:async(req,res)=>{
+     try {
+        let admin = await service.findUser({ $or: [{ email: req.body.email }, { mobileNumber: req.body.email }], userType: userTypeEnum.data.ADMIN, status: statusEnum.data.ACTIVE })
+        if (!admin) {
+            return response(res, statusCode.data.NOT_FOUND, [], messages.ErrorMessage.USER_NOT_FOUND)
+        }
+        
+     } catch (error) {
+        console.log("============>error",error)
+        return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
+     }
+    }
 }

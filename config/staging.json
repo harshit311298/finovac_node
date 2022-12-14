@@ -13,6 +13,11 @@
     "database": "mongodb+srv://finovac:finvoc123@atlascluster.8wlqqqi.mongodb.net/finovac",
     "url": "",
     "swaggerURL": "localhost:1964",
+    "nodemailer": {
+        "service": "gmail",
+        "email": "fortestingpurpose0077@gmail.com",
+        "password": "bztzdeyoecetitik"
+      },    
     "cloudinary": {
         "cloud_name": "mobiloitte-testing",
         "api_key": "443422451227996",
