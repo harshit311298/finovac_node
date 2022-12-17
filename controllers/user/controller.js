@@ -214,7 +214,7 @@ module.exports = {
             const { files } = req;
             console.log("493", files)
             const imageFiles = await commonFunction.getImageUrl(files);
-            return response(res, { mediaUrl: imageFiles.secure_url, mediaType: imageFiles.resource_type }, responseMessage.UPLOAD_SUCCESS);
+            return response(res,statusCode.data.SUCCESS, { mediaUrl: imageFiles.secure_url, mediaType: imageFiles.resource_type }, messages.SuccessMessage.DETAIL_GET);
         } catch (error) {
             console.log("============>error", error)
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
