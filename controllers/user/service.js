@@ -20,6 +20,8 @@ module.exports = {
 
     async editManyData(query, data) {
         return await model.updateMany(query, data, { multi: true })
+    },
+    async createUser(data){
+        return await model(data).save()
     }
-
 }

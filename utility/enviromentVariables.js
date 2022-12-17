@@ -5,6 +5,11 @@ let local={
         "service": "gmail",
         "email": "fortestingpurpose0077@gmail.com",
         "password": "bztzdeyoecetitik"
+    },
+    cloudinary:{
+        cloud_name: "mobilloite",
+        api_key: "467986128519276",
+        api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
     }
 },
 staging={
@@ -14,6 +19,11 @@ staging={
         "service": "gmail",
         "email": "fortestingpurpose0077@gmail.com",
         "password": "bztzdeyoecetitik"
+    },
+    cloudinary:{
+        cloud_name: "mobilloite",
+        api_key: "467986128519276",
+        api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
     }
 }
 

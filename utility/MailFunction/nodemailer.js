@@ -8,7 +8,7 @@ module.exports={
     forgotPassword:async(data)=>{
         let html = mailTemps.forgotPassword.mail(data)
         var transporter = nodemailer.createTransport({
-          service: config.get('nodemailer.service'),
+          service: variableused.nodemailer.service,
           auth: {
             "user": variableused.nodemailer.email,
             "pass": variableused.nodemailer.password
