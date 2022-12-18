@@ -301,6 +301,7 @@ module.exports = {
      */
     resendOtp:async(req,res,next)=>{
         try {
+            console.log("resendOtp==========req.body========>",req.body)
             let userFind = await service.findUser({ mobileNumber: encryption.encrypt(req.body.mobileNumber), userType: userTypeEnum.data.USER, status: { $ne: statusEnum.data.DELETED } })
             if (!userFind) {
                 return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
