@@ -256,7 +256,7 @@ module.exports = {
             if ((userFind.mobOtpExpireTime+30*60*60*1000)<Date.now()) {
                 return response(res, statusCode.data.FORBIDDEN, {},messages.ErrorMessage.OTP_EXPIRED)
             }
-            if (userFind.mobileOtp==req.body.otp) {
+            if (userFind.mobileOtp!=req.body.otp) {
                 return response(res, statusCode.data.FORBIDDEN, {},"Incorrect otp.")
             }
             var token = jwt.sign({ _id: userFind._id, iat: Math.floor(Date.now() / 1000) - 30 }, 'finovac', { expiresIn: '365d' });
@@ -351,10 +351,10 @@ module.exports = {
             if (!userFind) {
                 return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
             }
-            if ((userFind.mobOtpExpireTime+30*60*60*1000)<Date.now()) {
+            if ((userFind.loginExpireTime+30*60*60*1000)<Date.now()) {
                 return response(res, statusCode.data.FORBIDDEN, {},messages.ErrorMessage.OTP_EXPIRED)
             }
-            if (userFind.mobileOtp==req.body.otp) {
+            if (userFind.loginOtp!=req.body.otp) {
                 return response(res, statusCode.data.FORBIDDEN, {},"Incorrect otp.")
             }
             var token = jwt.sign({ _id: userFind._id, iat: Math.floor(Date.now() / 1000) - 30 }, 'finovac', { expiresIn: '365d' });

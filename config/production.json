@@ -10,7 +10,7 @@
     "basicAuthKey": "",
     "user": "node-trainee@mobiloitte.com",
     "pass": "Mobiloitte1",
-    "database": "mongodb+srv://complyany:Q1slnCfLedGEAQDB@cluster0.mmdq3.mongodb.net/compliancelive?retryWrites=true&w=majority",
+    "database": "mongodb+srv://finovac:finvoc123@atlascluster.8wlqqqi.mongodb.net/finovac",
     "url": "",
     "swaggerURL": "localhost:1964",
     "cloudinary": {
