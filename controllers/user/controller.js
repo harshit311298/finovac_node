@@ -8,6 +8,7 @@ let userTypeEnum = require('../../enums/userTypes')
 let statusEnum = require('../../enums/status')
 let commonFunction = require('../../utility/commonFunction')
 let mailFunctions = require('../../utility/MailFunction/nodemailer')
+
 let encryption = require('../../utility/crypto')
 module.exports = {
     /**

@@ -10,7 +10,8 @@ let local={
         cloud_name: "mobilloite",
         api_key: "467986128519276",
         api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
-    }
+    },
+    DATA_ENCRYPTION:"finovac"
 },
 staging={
     port:'https://finovac-node.onrender.com',
@@ -24,7 +25,8 @@ staging={
         cloud_name: "mobilloite",
         api_key: "467986128519276",
         api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
-    }
+    },
+    DATA_ENCRYPTION:"finovac"
 }
 
 module.exports={
