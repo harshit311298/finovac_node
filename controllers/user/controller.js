@@ -271,7 +271,7 @@ module.exports = {
             }
             let update = await service.updateUser({ _id: userFind._id }, { $set: obj })
             console.log("update", update)
-            return response(res, statusCode.data.SUCCESS, obj, messages.SuccessMessage.UPDATE_SUCCESS)
+            return response(res, statusCode.data.SUCCESS, obj,"User created successfully.")
 
         } catch (error) {
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
