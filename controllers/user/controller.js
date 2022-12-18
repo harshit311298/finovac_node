@@ -39,6 +39,9 @@ module.exports = {
  */
     signup: async (req, res, next) => {
         try {
+            if (!req.body.mobileNumber) {
+                return response(res, statusCode.data.BAD_REQUEST, {},"Please provide mobile number.")
+            }
             let userFind = await service.findUser({ mobileNumber: encryption.encrypt(req.body.mobileNumber), userType: userTypeEnum.data.USER, status: { $ne: statusEnum.data.DELETED } })
             if (userFind) {
                 return response(res, statusCode.data.ALREADY_EXIST, {}, messages.ErrorMessage.ALREADY_EXIST)
