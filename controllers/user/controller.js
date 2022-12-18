@@ -103,7 +103,7 @@ module.exports = {
     /**
  * @swagger
  * /api/v1/user/myProfile:
- *   post:
+ *   get:
  *     tags:
  *       - USER
  *     description: Check for Social existence and give the access Token 
@@ -144,7 +144,7 @@ module.exports = {
     /**
 * @swagger
 * /api/v1/user/editProfile:
-*   post:
+*   put:
 *     tags:
 *       - USER
 *     description: Check for Social existence and give the access Token 
