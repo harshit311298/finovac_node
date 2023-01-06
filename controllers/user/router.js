@@ -12,6 +12,7 @@ module.exports = router
 .post('/loginVerify',controller.loginVerify)
 .post('/resendOtp',controller.resendOtp)
 .post('/otpVerifyForPlatform',controller.otpVerifyForPlatform)
+.get('/linkAccountToFinovac',controller.linkAccountToFinovac)
 .use(auth.verifyToken)
 .get('/myProfile',controller.myProfile)
 .put('/editProfile',controller.editProfile)

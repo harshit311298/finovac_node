@@ -28,7 +28,10 @@ staging={
         api_key: "467986128519276",
         api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
     },
-    DATA_ENCRYPTION:"finovac"
+    DATA_ENCRYPTION:"finovac",
+    acess_key:"AKIAY45TKYDD55REBNXP",
+    secret_access_key:"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"
+
 }
 
 module.exports={

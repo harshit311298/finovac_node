@@ -8,7 +8,7 @@ let userTypeEnum = require('../../enums/userTypes')
 let statusEnum = require('../../enums/status')
 let commonFunction = require('../../utility/commonFunction')
 let mailFunctions = require('../../utility/MailFunction/nodemailer')
-
+const axios = require('axios')
 let encryption = require('../../utility/crypto')
 module.exports = {
     /**
@@ -40,7 +40,7 @@ module.exports = {
     signup: async (req, res, next) => {
         try {
             if (!req.body.mobileNumber) {
-                return response(res, statusCode.data.BAD_REQUEST, {},"Please provide mobile number.")
+                return response(res, statusCode.data.BAD_REQUEST, {}, "Please provide mobile number.")
             }
             let userFind = await service.findUser({ mobileNumber: encryption.encrypt(req.body.mobileNumber), userType: userTypeEnum.data.USER, status: { $ne: statusEnum.data.DELETED } })
             if (userFind) {
@@ -97,6 +97,9 @@ module.exports = {
                 _id: update._id,
                 otp: otp
             }
+            let body = `Hello user,\nYour OTP for login is ${otp}.It is only valid for 30 minutes.Do not share OTP with others for login\nThanks and regards,\nTeam Finovac`
+            let sendOtp = await commonFunction.sendSms(req.body.mobileNumber, body)
+            console.log("=====>", sendOtp)
             return response(res, statusCode.data.SUCCESS, data, messages.SuccessMessage.OTP_SEND)
         } catch (error) {
             console.log("============>error", error)
@@ -218,95 +221,95 @@ module.exports = {
             const { files } = req;
             console.log("493", files)
             const imageFiles = await commonFunction.getImageUrl(files);
-            return response(res,statusCode.data.SUCCESS, { mediaUrl: imageFiles.secure_url, mediaType: imageFiles.resource_type }, messages.SuccessMessage.DETAIL_GET);
+            return response(res, statusCode.data.SUCCESS, { mediaUrl: imageFiles.secure_url, mediaType: imageFiles.resource_type }, messages.SuccessMessage.DETAIL_GET);
         } catch (error) {
             console.log("============>error", error)
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
         }
     },
-            /**
-     * @swagger
-     * /api/v1/user/otpVerifyForPlatform:
-     *   post:
-     *     tags:
-     *       - USER
-     *     description: Check for Social existence and give the access Token 
-     *     produces:
-     *       - application/json
-     *     parameters:
-     *       - name: _id
-     *         description: _id
-     *         in: query
-     *         required: true
-     *       - name: otp
-     *         description: otp
-     *         in: formData
-     *         required: true
-     *     responses:
-     *       200:
-     *         description: Your login is successful
-     *       404:
-     *         description: Invalid credentials
-     *       500:
-     *         description: Internal Server Error
-     */
-    otpVerifyForPlatform:async(req,res,next)=>{
+    /**
+* @swagger
+* /api/v1/user/otpVerifyForPlatform:
+*   post:
+*     tags:
+*       - USER
+*     description: Check for Social existence and give the access Token 
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: _id
+*         description: _id
+*         in: query
+*         required: true
+*       - name: otp
+*         description: otp
+*         in: formData
+*         required: true
+*     responses:
+*       200:
+*         description: Your login is successful
+*       404:
+*         description: Invalid credentials
+*       500:
+*         description: Internal Server Error
+*/
+    otpVerifyForPlatform: async (req, res, next) => {
         try {
             let userFind = await service.findUser({ _id: req.query._id })
             if (!userFind) {
                 return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
             }
-            if ((userFind.mobOtpExpireTime+30*60*60*1000)<Date.now()) {
-                return response(res, statusCode.data.FORBIDDEN, {},messages.ErrorMessage.OTP_EXPIRED)
+            if ((userFind.mobOtpExpireTime + 30 * 60 * 60 * 1000) < Date.now()) {
+                return response(res, statusCode.data.FORBIDDEN, {}, messages.ErrorMessage.OTP_EXPIRED)
             }
-            if (userFind.mobileOtp!=req.body.otp) {
-                return response(res, statusCode.data.FORBIDDEN, {},"Incorrect otp.")
+            if (userFind.mobileOtp != req.body.otp) {
+                return response(res, statusCode.data.FORBIDDEN, {}, "Incorrect otp.")
             }
             var token = jwt.sign({ _id: userFind._id, iat: Math.floor(Date.now() / 1000) - 30 }, 'finovac', { expiresIn: '365d' });
 
             let obj = {
-                _id:userFind._id,
+                _id: userFind._id,
                 mobileOtpVerified: true,
-                token:token
+                token: token
             }
             let update = await service.updateUser({ _id: userFind._id }, { $set: obj })
             console.log("update", update)
-            return response(res, statusCode.data.SUCCESS, obj,"User created successfully.")
+            return response(res, statusCode.data.SUCCESS, obj, "User created successfully.")
 
         } catch (error) {
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
         }
     },
-        /**
-     * @swagger
-     * /api/v1/user/resendOtp:
-     *   post:
-     *     tags:
-     *       - USER
-     *     description: Check for Social existence and give the access Token 
-     *     produces:
-     *       - application/json
-     *     parameters:
-     *       - name: mobileNumber
-     *         description: mobileNumber
-     *         in: formData
-     *         required: true
-     *     responses:
-     *       200:
-     *         description: Your login is successful
-     *       404:
-     *         description: Invalid credentials
-     *       500:
-     *         description: Internal Server Error
-     */
-    resendOtp:async(req,res,next)=>{
+    /**
+ * @swagger
+ * /api/v1/user/resendOtp:
+ *   post:
+ *     tags:
+ *       - USER
+ *     description: Check for Social existence and give the access Token 
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: mobileNumber
+ *         description: mobileNumber
+ *         in: formData
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Your login is successful
+ *       404:
+ *         description: Invalid credentials
+ *       500:
+ *         description: Internal Server Error
+ */
+    resendOtp: async (req, res, next) => {
         try {
-            console.log("resendOtp==========req.body========>",req.body)
+            console.log("resendOtp==========req.body========>", req.body)
             let userFind = await service.findUser({ mobileNumber: encryption.encrypt(req.body.mobileNumber), userType: userTypeEnum.data.USER, status: { $ne: statusEnum.data.DELETED } })
             if (!userFind) {
                 return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
             }
-            let obj={
+            let obj = {
                 mobileOtp: commonFunction.getOTP(),
                 mobOtpExpireTime: Date.now()
             }
@@ -349,27 +352,103 @@ module.exports = {
      *         description: Internal Server Error
      */
 
-    loginVerify:async(req,res,next)=>{
+    loginVerify: async (req, res, next) => {
         try {
             let userFind = await service.findUser({ _id: req.query._id })
             if (!userFind) {
                 return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
             }
-            if ((userFind.loginExpireTime+30*60*60*1000)<Date.now()) {
-                return response(res, statusCode.data.FORBIDDEN, {},messages.ErrorMessage.OTP_EXPIRED)
+            if ((userFind.loginExpireTime + 30 * 60 * 60 * 1000) < Date.now()) {
+                return response(res, statusCode.data.FORBIDDEN, {}, messages.ErrorMessage.OTP_EXPIRED)
             }
-            if (userFind.loginOtp!=req.body.otp) {
-                return response(res, statusCode.data.FORBIDDEN, {},"Incorrect otp.")
+            if (userFind.loginOtp != req.body.otp) {
+                return response(res, statusCode.data.FORBIDDEN, {}, "Incorrect otp.")
             }
             var token = jwt.sign({ _id: userFind._id, iat: Math.floor(Date.now() / 1000) - 30 }, 'finovac', { expiresIn: '365d' });
 
             let obj = {
-                _id:userFind._id,
+                _id: userFind._id,
                 mobileOtpVerified: true,
-                token:token
+                token: token
             }
             return response(res, statusCode.data.SUCCESS, obj, messages.SuccessMessage.UPDATE_SUCCESS)
         } catch (error) {
+            return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
+        }
+    },
+    /**
+ * @swagger
+ * /api/v1/user/linkAccountToFinovac:
+ *   get:
+ *     tags:
+ *       - USER
+ *     summary: to get consent request parameter
+ *     description: linkAccountToFinovac? to get consent request parameter 
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: userId
+ *         description: userId
+ *         in: query
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Your login is successful
+ *       404:
+ *         description: Invalid credentials
+ *       500:
+ *         description: Internal Server Error
+ */
+    linkAccountToFinovac: async (req, res, next) => {
+        try {
+            console.log("=============>",req.query)
+            let userFind = await service.findUser({ _id: req.query.userId })
+            if (!userFind) {
+                return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
+            }
+            let apiResult = await axios({
+                url: "https://finovac.fiu.finfactor.in/finsense/API/V1/User/Login",
+                method: "post",
+                data: {
+                    "header": {
+                        "rid": "42c06b9f-cc5b-4a53-9119-9ca9d8e9acdb",
+                        "ts": new Date().toISOString(),
+                        "channelId": "finsense"
+                    },
+                    "body": {
+                        "userId": "channel@dhanaprayoga",
+                        "password": "7777"
+                    }
+                }
+
+            })
+            let consentRaise = await axios({
+                url: "https://finovac.fiu.finfactor.in/finsense/API/V1/ConsentRequestEncrypt",
+                method: "post",
+                headers: {
+                    Authorization: `${apiResult.data.body.token}`
+                },
+                data: {
+                    "header": {
+                        "ts": new Date().toISOString(),
+                        "channelId": "finsense",
+                        "rid": "445e7f8c-22eb-4c09-b6d9-677ef59dbc29"
+                    },
+                    "body": {
+                        "custId": `${encryption.decrypt(userFind.mobileNumber)}@finvu`,
+                        "consentDescription": "Wealth Management Service",
+                        "templateName": "FINVUDEMO_TESTING",
+                        "userSessionId": "sessionid123"
+                    }
+                }
+            })
+            console.log("=======>", consentRaise.data)
+            let update=await service.updateUser({_id:userFind._id},{$set:{consentRequest:consentRaise.data.body}})
+            console.log("======update=====>",update)
+            return response(res, statusCode.data.SUCCESS, consentRaise.data, messages.SuccessMessage.DATA_FOUND)
+
+        } catch (error) {
+            console.log("-====>", error)
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
         }
     }
