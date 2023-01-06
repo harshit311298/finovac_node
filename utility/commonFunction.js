@@ -2,7 +2,9 @@ const enviroment=require('./enviromentVariables')
 // let variableused=enviroment.local//beta
 let variableused=enviroment.staging//staging
 // let variableused=enviroment.production//production
-
+const AWS = require('aws-sdk');
+const Sender = require('aws-sms-send');
+var aws_topic = 'arn:aws:sns:us-east-1:729366371820:coinbaazar';
 const jwt =require('jsonwebtoken');
 const nodemailer =require('nodemailer') ;
 const cloudinary =require('cloudinary') ;
@@ -12,24 +14,38 @@ cloudinary.config({
   api_key: variableused.cloudinary.api_key,
   api_secret: variableused.cloudinary.api_secret
 });
+var aws_topic = 'arn:aws:sns:us-east-1:729366371820:coinbaazar';
 
+var config2 = {
+  AWS: {
+    accessKeyId: variableused.acess_key,
+    secretAccessKey: variableused.secret_access_key,
+    region: "ap-south-1"
+  },
+  topicArn: aws_topic,
+};
+var sender = new Sender(config2);
 
 module.exports = {
 
   getOTP() {
-    var otp = Math.floor(1000 + Math.random() * 9000);
+    var otp = Math.floor(1000 + Math.random() * 900000);
     return otp;
   },
 
-  sendSms: (number, otp) => {
-    sender.sendSms(`Your otp is ${otp}`, config.get('AWS.smsSecret'), false, number)
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (err) {
-        return err;
-      })
-
+  sendSms: (number,body) => {
+    return new Promise(async (resolve, reject) => {
+      sender.sendSms(`${body}`, "nodesms", false, number)
+        .then(function (response) {
+          ////console.log("Response======>", response);
+          return resolve(response);
+        })
+        .catch(function (err) {
+          console.log("err======>", err);
+          return reject(err);
+        })
+    }
+    )
   },
 
   getToken: async (payload) => {

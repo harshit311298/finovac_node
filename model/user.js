@@ -64,6 +64,9 @@ const userSchema = new schema({
   },
   profilePic: {
     type: String,
+  },
+  consentRequest:{
+    type:Object
   }
 },
   {
