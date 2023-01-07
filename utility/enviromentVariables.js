@@ -12,8 +12,8 @@ let local={
         api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
     },
     DATA_ENCRYPTION:"finovac",
-    acess_key:"AKIAY45TKYDD55REBNXP",
-    secret_access_key:"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"
+    acess_key:"AKIAY45TKYDDVZXJA6EK",
+    secret_access_key:"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"
 },
 staging={
     port:'https://finovac-node.onrender.com',
@@ -29,8 +29,8 @@ staging={
         api_secret: "1w0A-gMtLQz6XMHMutGYayTTJV8"
     },
     DATA_ENCRYPTION:"finovac",
-    acess_key:"AKIAY45TKYDD55REBNXP",
-    secret_access_key:"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"
+    acess_key:"AKIAY45TKYDDVZXJA6EK",
+    secret_access_key:"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"
 
 }
 

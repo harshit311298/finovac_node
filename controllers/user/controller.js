@@ -169,6 +169,10 @@ module.exports = {
 *         description: fullName
 *         in: formData
 *         required: false
+*       - name: email
+*         description: email
+*         in: formData
+*         required: false
 *     responses:
 *       200:
 *         description: Your login is successful
@@ -185,7 +189,8 @@ module.exports = {
             }
             let obj = {
                 profilePic: req.body.profilePic,
-                fullName: req.body.fullName
+                fullName: req.body.fullName,
+                email: encryption.encrypt(req.body.email)
             }
             let update = await service.updateUser({ _id: userFind._id }, { $set: obj })
             console.log("update", update)
