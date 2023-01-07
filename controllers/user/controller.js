@@ -100,8 +100,8 @@ module.exports = {
                 otp: otp
             }
             let body = `Hello user,\nYour OTP for login is ${otp}. It is only valid for 30 minutes. Do not share OTP with others for login\nThanks and regards,\nTeam Finovac`
-            let sendOtp = await commonFunction.sendSms2(req.body.mobileNumber, body)
-            console.log("=====>", sendOtp)
+            // let sendOtp = await commonFunction.sendSms2(req.body.mobileNumber, body)
+            // console.log("=====>", sendOtp)
             return response(res, statusCode.data.SUCCESS, data, messages.SuccessMessage.OTP_SEND)
         } catch (error) {
             console.log("============>error", error)
