@@ -13,7 +13,8 @@ let local={
     },
     DATA_ENCRYPTION:"finovac",
     acess_key:"AKIAY45TKYDDVZXJA6EK",
-    secret_access_key:"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"
+    secret_access_key:"LZrd7YZjR+KzS0VN6i5PxEqOteHpjRiDcrwatYgb",
+    fast2smsapiKeys:"PZxqiBMXYVJQTopS3tFhNEeaOwk8ucCmUvIldy6RGrDz5b0jW9xpDfVE6Wh5iNP4z3jm7BaS2OZnMrYL"
 },
 staging={
     port:'https://finovac-node.onrender.com',
@@ -30,8 +31,8 @@ staging={
     },
     DATA_ENCRYPTION:"finovac",
     acess_key:"AKIAY45TKYDDVZXJA6EK",
-    secret_access_key:"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"
-
+    secret_access_key:"LZrd7YZjR+KzS0VN6i5PxEqOteHpjRiDcrwatYgb",
+    fast2smsapiKeys:"PZxqiBMXYVJQTopS3tFhNEeaOwk8ucCmUvIldy6RGrDz5b0jW9xpDfVE6Wh5iNP4z3jm7BaS2OZnMrYL"
 }
 
 module.exports={
