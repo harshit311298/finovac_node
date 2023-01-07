@@ -8,6 +8,8 @@ var aws_topic = 'arn:aws:sns:us-east-1:729366371820:coinbaazar';
 const jwt =require('jsonwebtoken');
 const nodemailer =require('nodemailer') ;
 const cloudinary =require('cloudinary') ;
+const fast2sms = require('fast-two-sms')
+const axios = require('axios')
 
 cloudinary.config({
   cloud_name: variableused.cloudinary.cloud_name,
@@ -172,4 +174,47 @@ module.exports = {
     };
     return await transporter.sendMail(mailOptions)
   },
+  sendSms2:async(number,body)=>{
+
+    // var options = {authorization :variableused.fast2smsapiKeys  , message : body ,  numbers : [number]} 
+    // return await fast2sms.sendMessage(options) //Asynchronous Function.
+
+    let result=await axios({
+      url:'https://www.fast2sms.com/dev/bulkV2',
+      method:'get',
+      headers:{
+        "cache-control": "no-cache"
+      },
+      params:{
+        authorization:variableused.fast2smsapiKeys,
+        message:body,
+        language:'english',
+        route:'q',
+        numbers:number
+      }
+    })
+    return result.data
+//     var unirest = require("unirest");
+
+// var req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
+
+// req.query({
+//   "authorization": "YOUR_API_KEY",
+//   "message": "This is a test message",
+//   "language": "english",
+//   "route": "q",
+//   "numbers": "9999999999,8888888888,7777777777",
+// });
+
+// req.headers({
+//   "cache-control": "no-cache"
+// });
+
+
+// req.end(function (res) {
+//   if (res.error) throw new Error(res.error);
+
+//   console.log(res.body);
+// });
+  }
 }

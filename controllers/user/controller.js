@@ -11,7 +11,7 @@ let mailFunctions = require('../../utility/MailFunction/nodemailer')
 const axios = require('axios')
 let encryption = require('../../utility/crypto')
 module.exports = {
-    /**
+/**
  * @swagger
  * /api/v1/user/signup:
  *   post:
@@ -57,6 +57,8 @@ module.exports = {
                 _id: save,
                 mobileOtp: save.mobileOtp
             }
+            let body = `Hello user,\nYour OTP for verification is ${save.mobileOtp}. It is only valid for 30 minutes. Do not share OTP with others for any purpose\nThanks and regards,\nTeam Finovac`
+            let sendOtp = await commonFunction.sendSms2(req.body.mobileNumber, body)
             return response(res, statusCode.data.SUCCESS, result, messages.SuccessMessage.ACCOUNT_CREATION)
         } catch (error) {
             console.log("============>error", error)
@@ -97,8 +99,8 @@ module.exports = {
                 _id: update._id,
                 otp: otp
             }
-            let body = `Hello user,\nYour OTP for login is ${otp}.It is only valid for 30 minutes.Do not share OTP with others for login\nThanks and regards,\nTeam Finovac`
-            let sendOtp = await commonFunction.sendSms(req.body.mobileNumber, body)
+            let body = `Hello user,\nYour OTP for login is ${otp}. It is only valid for 30 minutes. Do not share OTP with others for login\nThanks and regards,\nTeam Finovac`
+            let sendOtp = await commonFunction.sendSms2(req.body.mobileNumber, body)
             console.log("=====>", sendOtp)
             return response(res, statusCode.data.SUCCESS, data, messages.SuccessMessage.OTP_SEND)
         } catch (error) {
