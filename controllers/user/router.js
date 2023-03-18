@@ -16,3 +16,4 @@ module.exports = router
 .use(auth.verifyToken)
 .get('/myProfile',controller.myProfile)
 .put('/editProfile',controller.editProfile)
+.delete('/deleteAccount',controller.deleteAccount)
