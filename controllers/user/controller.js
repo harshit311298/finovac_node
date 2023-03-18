@@ -11,32 +11,32 @@ let mailFunctions = require('../../utility/MailFunction/nodemailer')
 const axios = require('axios')
 let encryption = require('../../utility/crypto')
 module.exports = {
-/**
- * @swagger
- * /api/v1/user/signup:
- *   post:
- *     tags:
- *       - USER
- *     description: Check for Social existence and give the access Token 
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: fullName
- *         description: fullName
- *         in: formData
- *         required: true
- *       - name: mobileNumber
- *         description: mobileNumber
- *         in: formData
- *         required: true
- *     responses:
- *       200:
- *         description: Your signup is successful
- *       404:
- *         description: Invalid credentials
- *       500:
- *         description: Internal Server Error
- */
+    /**
+     * @swagger
+     * /api/v1/user/signup:
+     *   post:
+     *     tags:
+     *       - USER
+     *     description: Check for Social existence and give the access Token 
+     *     produces:
+     *       - application/json
+     *     parameters:
+     *       - name: fullName
+     *         description: fullName
+     *         in: formData
+     *         required: true
+     *       - name: mobileNumber
+     *         description: mobileNumber
+     *         in: formData
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: Your signup is successful
+     *       404:
+     *         description: Invalid credentials
+     *       500:
+     *         description: Internal Server Error
+     */
     signup: async (req, res, next) => {
         try {
             if (!req.body.mobileNumber) {
@@ -408,7 +408,7 @@ module.exports = {
  */
     linkAccountToFinovac: async (req, res, next) => {
         try {
-            console.log("=============>",req.query)
+            console.log("=============>", req.query)
             let userFind = await service.findUser({ _id: req.query.userId })
             if (!userFind) {
                 return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
@@ -450,14 +450,56 @@ module.exports = {
                 }
             })
             console.log("=======>", consentRaise.data)
-            let update=await service.updateUser({_id:userFind._id},{$set:{consentRequest:consentRaise.data.body}})
-            console.log("======update=====>",update)
+            let update = await service.updateUser({ _id: userFind._id }, { $set: { consentRequest: consentRaise.data.body } })
+            console.log("======update=====>", update)
             return response(res, statusCode.data.SUCCESS, consentRaise.data, messages.SuccessMessage.DATA_FOUND)
 
         } catch (error) {
             console.log("-====>", error)
             return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
         }
+    },
+    /**
+* @swagger
+* /api/v1/user/deleteAccount:
+*   delete:
+*     tags:
+*       - USER
+*     summary: to delete a user account
+*     description: deleteAccount? to delete a user account
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: token
+*         description: token
+*         in: header
+*         required: true
+*     responses:
+*       200:
+*         description: Your account is deleted successful
+*       404:
+*         description: Invalid credentials
+*       500:
+*         description: Internal Server Error
+*/
+    deleteAccount: async (req, res, next) => {
+        try {
+            let userFind = await service.findUser({ _id: req.userId })
+            if (!userFind) {
+                return response(res, statusCode.data.NOT_FOUND, {}, messages.ErrorMessage.NOT_FOUND)
+            }
+            let update = await service.updateUser({ _id: userFind._id }, { $set: { status: statusEnum.data.DELETED } })
+            console.log("update", update)
+            let obj = {
+                userId: userFind._id,
+                deleted: true
+            }
+            return response(res, statusCode.data.SUCCESS, obj, messages.SuccessMessage.DELETE_SUCCESS)
+        } catch (error) {
+            console.log("-====>", error)
+            return response(res, statusCode.data.SOMETHING_WRONG, error, messages.ErrorMessage.SOMETHING_WRONG)
+        }
     }
+
 
 }
