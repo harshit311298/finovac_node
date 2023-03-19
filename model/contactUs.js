@@ -14,8 +14,8 @@ const schemaDefination = new schema(
     {
         email: { type: String },
         name: { type: String },
-        description: { type: String },
-        link:{type:String},
+        phoneNo:{type:String},
+        query: { type: String },
         status: { type: String, default: statusEnum.data.ACTIVE}
     },
     options
