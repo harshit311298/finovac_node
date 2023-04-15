@@ -14,24 +14,24 @@ let encryption = require('../../utility/crypto')
 module.exports={
         /**
      * @swagger
-     * /api/v1/user/signup:
+     * /api/v1/user/contactUs:
      *   post:
      *     tags:
-     *       - USER
+     *       - CONTACT US
      *     description: Check for Social existence and give the access Token 
      *     produces:
      *       - application/json
      *     parameters:
-     *       - name: fullName
-     *         description: fullName
+     *       - name: email
+     *         description: email
+     *         in: formData
+     *         required: true
+     *       - name: name
+     *         description: name
      *         in: formData
      *         required: true
      *       - name: phoneNo
      *         description: phoneNo
-     *         in: formData
-     *         required: true
-     *       - name: email
-     *         description: email
      *         in: formData
      *         required: true
      *       - name: query
